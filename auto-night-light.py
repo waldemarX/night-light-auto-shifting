@@ -4,7 +4,6 @@ import pydirectinput
 import subprocess
 import os
 import tkinter as tk
-from datetime import datetime
 
 
 def show_warning_dialog():
@@ -27,7 +26,6 @@ def show_warning_dialog():
     x = (screen_width - window_width) // 2
     y = (screen_height - window_height) // 2
     root.geometry(f"{window_width}x{window_height}+{x}+{y}")
-    # Закрытие окна через 2 секунды
     root.after(2000, root.destroy)
     root.mainloop()
 
@@ -50,9 +48,7 @@ def set_night_light_temperature(change_value: int):
     """
     show_warning_dialog()
     open_night_light_window()
-    # Изменение температуры
     pydirectinput.press('right', presses=change_value)
-    # Закрытие окна
     pyautogui.hotkey('alt', 'f4')
 
 
@@ -63,7 +59,7 @@ def set_start_settings(start_value: int):
     with open('last-value.txt', 'r') as file:
         last_value = file.read()
     last_value = int(last_value)
-    print('Setting starting value...')
+    print('Setting start value...')
     open_night_light_window()
     pydirectinput.press('left', presses=last_value)
     pydirectinput.press('right', presses=start_value)
@@ -76,7 +72,7 @@ def set_start_values() -> int:
     """
     start_value: int = int(input('Set start value: '))
     change_value: int = int(input('Set change value: '))
-    period: int = int(input('Period (minutes): '))
+    period: int = int(input('Set period (minutes): '))
     os.system('cls')
     return start_value, change_value, period
 
@@ -86,6 +82,7 @@ def check_and_change(current_value: int, change_value: int, period: int):
     Изменение значения
     """
     while True:
+        os.system('cls')
         print(f'Current value -> {current_value}')
         time.sleep(60 * period)
         os.system('cls')
@@ -95,7 +92,6 @@ def check_and_change(current_value: int, change_value: int, period: int):
         # Запись текущего значения
         with open('last-value.txt', 'w') as file:
             file.write(f'{current_value}')
-        os.system('cls')
 
 
 def main():
