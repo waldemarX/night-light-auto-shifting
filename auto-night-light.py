@@ -61,8 +61,7 @@ def set_start_settings(start_value: int):
     last_value = int(last_value)
     print('Setting start value...')
     open_night_light_window()
-    pydirectinput.press('left', presses=last_value)
-    pydirectinput.press('right', presses=start_value)
+    pydirectinput.press('left', presses=(last_value - start_value))
     pyautogui.hotkey('alt', 'f4')
 
 
@@ -84,20 +83,17 @@ def check_and_change(current_value: int, change_value: int, period: int):
     while True:
         os.system('cls')
         print(f'Current value -> {current_value}')
+        print('Waiting for next change...')
         time.sleep(60 * period)
         os.system('cls')
         print('Setting new value...')
         set_night_light_temperature(change_value)
         current_value += change_value
-        # Запись текущего значения
         with open('last-value.txt', 'w') as file:
             file.write(f'{current_value}')
 
 
 def main():
-    """
-    Основная функция.
-    """
     start_value, change_value, period = set_start_values()
     set_start_settings(start_value)
     check_and_change(start_value, change_value, period)
