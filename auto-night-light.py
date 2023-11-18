@@ -76,40 +76,35 @@ def set_start_values() -> int:
     """
     start_value: int = int(input('Set start value: '))
     change_value: int = int(input('Set change value: '))
-    current_time: int = datetime.now().hour
+    period: int = int(input('Period (minutes): '))
     os.system('cls')
-    return start_value, current_time, change_value
+    return start_value, change_value, period
 
 
-def check_and_change(check_time: int, current_value: int, change_value: int):
+def check_and_change(current_value: int, change_value: int, period: int):
     """
-    Изменение значения раз в час.
+    Изменение значения
     """
     while True:
-        current_hour = datetime.now().hour
-        if current_hour > check_time:
-            os.system('cls')
-            print('Setting new value...')
-            check_time = current_hour
-            set_night_light_temperature(change_value)
-            current_value += 5
-            # Запись текущего значения
-            with open('last-value.txt', 'w') as file:
-                file.write(f'{current_value}')
+        print(f'Current value -> {current_value}')
+        time.sleep(60 * period)
         os.system('cls')
-        print(f'\nCurrent value -> {current_value}\n'
-              f'Next change in {60 - datetime.now().minute} minutes')
-        # Проверка каждые 60 секунд
-        time.sleep(60)
+        print('Setting new value...')
+        set_night_light_temperature(change_value)
+        current_value += change_value
+        # Запись текущего значения
+        with open('last-value.txt', 'w') as file:
+            file.write(f'{current_value}')
+        os.system('cls')
 
 
 def main():
     """
     Основная функция.
     """
-    start_value, current_time, change_value = set_start_values()
+    start_value, change_value, period = set_start_values()
     set_start_settings(start_value)
-    check_and_change(current_time, start_value, change_value)
+    check_and_change(start_value, change_value, period)
 
 
 if __name__ == "__main__":
