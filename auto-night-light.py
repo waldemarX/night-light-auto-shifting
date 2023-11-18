@@ -12,11 +12,11 @@ def show_warning_dialog():
     """
     root = tk.Tk()
     root.attributes('-topmost', True)
-    root.title('Предупреждение')
+    root.title('Warning')
     root.configure(bg='#00FF00')
     font = ('Arial', 14)
     label = tk.Label(root,
-                     text='Сейчас будет изменен параметр ночного света.',
+                     text='Prepare for change night light param.',
                      font=font)
     label.pack(pady=10)
     screen_width = root.winfo_screenwidth()
@@ -108,7 +108,9 @@ def check_and_change(current_value: int, change_value: int, period: int):
     """
     while True:
         os.system('cls')
-        print(f'Current value -> {current_value}')
+        print(f'Current value -> {current_value}\n'
+              f'Step -> {change_value}\n'
+              f'Value change every {period} minutes\n')
         print('Waiting for next change...')
         time.sleep(60 * period)
         os.system('cls')
