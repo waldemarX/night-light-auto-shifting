@@ -56,13 +56,19 @@ def set_start_settings(start_value: int):
     """
     Установка начального значения.
     """
-    with open('last-value.txt', 'r') as file:
-        last_value = file.read()
-    last_value = int(last_value)
+    last_value = read_file()
+    if start_value == last_value:
+        print('Last value was the same, no need to change start value')
+        time.sleep(1.5)
+        return
     print('Setting start value...')
     open_night_light_window()
-    pydirectinput.press('left', presses=(last_value - start_value))
+    if last_value > start_value:
+        pydirectinput.press('left', presses=(last_value - start_value))
+    else:
+        pydirectinput.press('right', presses=(start_value - last_value))
     pyautogui.hotkey('alt', 'f4')
+    write_file(start_value)
 
 
 def set_start_values() -> int:
@@ -74,6 +80,26 @@ def set_start_values() -> int:
     period: int = int(input('Set period (minutes): '))
     os.system('cls')
     return start_value, change_value, period
+
+
+def read_file() -> int:
+    """
+    Чтение файла.
+    """
+    try:
+        with open('last-value.txt', 'r') as file:
+            value = file.read()
+            return int(value) if value else 0
+    except (FileNotFoundError, ValueError):
+        return 0
+
+
+def write_file(current_value):
+    """
+    Запись в файл.
+    """
+    with open('last-value.txt', 'w') as file:
+        file.write(f'{current_value}')
 
 
 def check_and_change(current_value: int, change_value: int, period: int):
@@ -89,8 +115,7 @@ def check_and_change(current_value: int, change_value: int, period: int):
         print('Setting new value...')
         set_night_light_temperature(change_value)
         current_value += change_value
-        with open('last-value.txt', 'w') as file:
-            file.write(f'{current_value}')
+        write_file(current_value)
 
 
 def main():
