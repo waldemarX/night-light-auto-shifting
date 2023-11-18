@@ -75,9 +75,14 @@ def set_start_values() -> int:
     """
     Установка начальных параметров.
     """
-    start_value: int = int(input('Set start value: '))
-    change_value: int = int(input('Set change value: '))
-    period: int = int(input('Set period (minutes): '))
+    while True:
+        try:
+            start_value = int(input('Set start value: '))
+            change_value = int(input('Set change value: '))
+            period = int(input('Set period (minutes): '))
+            break
+        except ValueError:
+            print('Invalid input. Please enter a valid integer.')
     os.system('cls')
     return start_value, change_value, period
 
