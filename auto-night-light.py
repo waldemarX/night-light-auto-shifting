@@ -114,7 +114,7 @@ def check_and_change(current_value: int, change_value: int, period: int):
     while True:
         os.system('cls')
         print(f'Current value -> {current_value}\n'
-              f'Step -> {change_value}\n'
+              f'Change value -> {change_value}\n'
               f'Value change every {period} minutes\n')
         print('Waiting for next change...')
         time.sleep(60 * period)
@@ -126,6 +126,7 @@ def check_and_change(current_value: int, change_value: int, period: int):
 
 
 def main():
+    print(f'Last value was -> {read_file()}\n')
     start_value, change_value, period = set_start_values()
     set_start_settings(start_value)
     check_and_change(start_value, change_value, period)
