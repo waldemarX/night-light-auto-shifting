@@ -4,6 +4,7 @@ import pydirectinput
 import subprocess
 import os
 import tkinter as tk
+from datetime import datetime, timedelta
 
 
 def show_warning_dialog():
@@ -107,6 +108,20 @@ def write_file(current_value):
         file.write(f'{current_value}')
 
 
+def get_time_now():
+    """
+    Текущее время
+    """
+    return datetime.now().strftime("%H:%M")
+
+
+def get_time_next(period):
+    """
+    Время следующего изменения
+    """
+    return (datetime.now() + timedelta(minutes=period)).strftime("%H:%M")
+
+
 def check_and_change(current_value: int, change_value: int, period: int):
     """
     Изменение значения
@@ -115,7 +130,9 @@ def check_and_change(current_value: int, change_value: int, period: int):
         os.system('cls')
         print(f'Current value -> {current_value}\n'
               f'Change value -> {change_value}\n'
-              f'Value change every {period} minutes\n')
+              f'Value change every {period} minutes\n'
+              f'Last update -> {get_time_now()}\n'
+              f'Next update -> {get_time_next(period)}\n')
         print('Waiting for next change...')
         time.sleep(60 * period)
         os.system('cls')
