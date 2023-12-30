@@ -15,4 +15,3 @@
 ## Требования
 - pyautogui
 - pydirectinput
-- tkinter
